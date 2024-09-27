@@ -82,7 +82,7 @@ Compiler Macros
 * after, we use _MSC_VER directly, make macros.h doesn't depends on api_types.h
 
 ```C
-/* foundation/macros.h */
+/* fatcore/macros.h */
 #if defined(_MSC_VER)
 #  define fat_or(a, b) ((a) ? (a) : (b))
 #else
@@ -187,7 +187,7 @@ int run(int argc, char *argv[])
 
     fat_allocator_i allocator = fat_allocator_api->create_child(fat_allocator_api->system, "host");
     fat_init_global_api_registry(&allocator);
-    fat_register_all_foundation_apis(fat_global_api_registry);
+    fat_register_all_core_apis(fat_global_api_registry);
 
     ...
 
@@ -203,10 +203,10 @@ int run(int argc, char *argv[])
 DLL
 
 ```C
-/* foundation/allocator.h */
+/* fatcore/allocator.h */
 #define FAT_ALLOCATOR_API_NAME "fat_allocator_api"
 
-/* foundation/buffer_format.h */
+/* fatcore/buffer_format.h */
 #define FAT_BUFFER_FORMAT_API_NAME "fat_buffer_format_api"
 
 /* simple_3d.c */
@@ -219,7 +219,7 @@ FAT_DLL_EXPORT void fat_load_plugin(struct fat_api_registry_api *reg, bool load)
 {
     fat_global_api_registry = reg;
 
-    // Get foundation apis
+    // Get core apis
     fat_allocator_api = reg->get(FAT_ALLOCATOR_API_NAME);
     fat_buffer_format_api = reg->get(FAT_BUFFER_FORMAT_API_NAME);
     ...
@@ -232,7 +232,7 @@ FAT_DLL_EXPORT void fat_load_plugin(struct fat_api_registry_api *reg, bool load)
  * interface - multiple instances
 
 ```C
-/* foundation/unit_test.h */
+/* fatcore/unit_test.h */
 #define FAT_UNIT_TEST_INTERFACE_NAME "fat_unit_test_i"
 
 typedef struct fat_unit_test_i
